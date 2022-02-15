@@ -2,7 +2,7 @@ import { ActionsCards } from "../../components/ActionsCards";
 import { Global, LeftBar } from "./style";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { initialState, useUser } from "../../context/userContext";
+import { initialState, SET_USER, useUser } from "../../context/userContext";
 
 export const MainLayout = ({ children }: any) => {
     const {
@@ -19,7 +19,7 @@ export const MainLayout = ({ children }: any) => {
     }, [isLogged]);
 
     const logoutButtonCallback = () => {
-        dispatch({ type: "SET_USER", payload: initialState });
+        dispatch({ type: SET_USER, payload: initialState });
     };
 
     if (!user || user.role.id === 0) {
@@ -36,6 +36,7 @@ export const MainLayout = ({ children }: any) => {
                 <span>Wood: {user.wood}</span>
                 <span>Minerals: {user.minerals}</span>
                 <span>Food: {user.food}</span>
+                <span>Stone: {user.stone}</span>
             </LeftBar>
             {children}
         </Global>

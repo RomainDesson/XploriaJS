@@ -6,6 +6,7 @@ import { LumberingPage } from "./pages/LumberingPage";
 import { UserProvider } from "./context/userContext";
 import { MiningPage } from "./pages/MiningPage";
 import { FarmingPage } from "./pages/FarmingPage";
+import { DiggingPage } from "./pages/DiggingPage";
 
 function App() {
     return (
@@ -41,6 +42,14 @@ function App() {
                     element={
                         <MainLayout>
                             <FarmingPage />
+                        </MainLayout>
+                    }
+                />
+                <Route
+                    path={"/digging"}
+                    element={
+                        <MainLayout>
+                            <DiggingPage />
                         </MainLayout>
                     }
                 />

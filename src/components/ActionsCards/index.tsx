@@ -9,6 +9,7 @@ export const ActionsCards = () => {
             <Card onClick={() => navigate("/lumbering")}>Lumbering</Card>
             <Card onClick={() => navigate("/mining")}>Mining</Card>
             <Card onClick={() => navigate("/farming")}>Farming</Card>
+            <Card onClick={() => navigate("/digging")}>Digging</Card>
         </>
     );
 };

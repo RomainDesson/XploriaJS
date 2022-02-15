@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useUser } from "../../context/userContext";
+import { ADD_MINERALS, useUser } from "../../context/userContext";
 import { UserURL } from "../../api/routes";
 import { useNavigate } from "react-router-dom";
+import { UpgradeButton } from "../../components/UpgradeButtons/UpgradeButton";
 
 export const MiningPage = () => {
     const [miningCounter, setMiningCounter] = useState<number>(5);
@@ -27,7 +28,7 @@ export const MiningPage = () => {
             setMiningCounter((miningCounter) => miningCounter - 1);
         }, 1000);
         if (miningCounter === 0) {
-            dispatch({ type: "ADD_MINERALS", payload: user.miningSpeed });
+            dispatch({ type: ADD_MINERALS, payload: user.miningSpeed });
             axios.put(
                 `${UserURL}/${user?.id}`,
                 {
@@ -46,6 +47,8 @@ export const MiningPage = () => {
         <li>
             <ul>Mining</ul>
             <ul>next mineral in : {miningCounter}</ul>
+            <ul>actual speed: {user.miningSpeed}</ul>
+            <UpgradeButton numberOfResources={user.minerals} typeOfResources={"mining"} gatheringSpeed={user.miningSpeed} gatheringType={"IMPROVE_MINING"} />
         </li>
     );
 };

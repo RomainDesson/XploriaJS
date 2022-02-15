@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AuthURL } from "../../api/routes";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/userContext";
+import { SET_USER, useUser } from "../../context/userContext";
 
 export const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -19,7 +19,7 @@ export const LoginPage = () => {
         axios
             .post(AuthURL, { identifier: username, password: password })
             .then((response) => {
-                dispatch({ type: "SET_USER", payload: response.data.user });
+                dispatch({ type: SET_USER, payload: response.data.user });
                 localStorage.setItem("jwt", response.data.jwt);
                 navigate("/character");
             })

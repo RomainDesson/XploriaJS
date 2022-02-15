@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ADD_WOOD, useUser } from "../../context/userContext";
+import { ADD_FOOD, ADD_STONE, useUser } from "../../context/userContext";
 import { UserURL } from "../../api/routes";
 import { useNavigate } from "react-router-dom";
 import { UpgradeButton } from "../../components/UpgradeButtons/UpgradeButton";
 
-export const LumberingPage = () => {
+export const DiggingPage = () => {
+    const [stoneCounter, setStoneCounter] = useState<number>(5);
     const navigate = useNavigate();
-    const [lumberingCounter, setLumberingCounter] = useState<number>(5);
     const {
         state: { user },
         dispatch,
@@ -17,6 +17,7 @@ export const LumberingPage = () => {
         navigate("/");
         return null;
     }
+
     const headers = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -25,30 +26,30 @@ export const LumberingPage = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setLumberingCounter((lumberingCounter) => lumberingCounter - 1);
+            setStoneCounter((stoneCounter) => stoneCounter - 1);
         }, 1000);
-        if (lumberingCounter === 0) {
-            dispatch({ type: ADD_WOOD, payload: user.lumberingSpeed });
+        if (stoneCounter === 0) {
+            dispatch({ type: ADD_STONE, payload: user.diggingSpeed });
             axios.put(
                 `${UserURL}/${user?.id}`,
                 {
-                    wood: user.wood + user.lumberingSpeed,
+                    stone: user.stone + user.diggingSpeed,
                 },
                 headers
             );
-            setLumberingCounter(5);
+            setStoneCounter(5);
         }
         return () => {
             clearInterval(interval);
         };
-    }, [lumberingCounter]);
+    }, [stoneCounter]);
 
     return (
         <li>
-            <ul>Lumbering</ul>
-            <ul>next log in : {lumberingCounter}</ul>
-            <ul>Lumbering speed: {user.lumberingSpeed}</ul>
-            <UpgradeButton numberOfResources={user.wood} typeOfResources={"lumbering"} gatheringSpeed={user.lumberingSpeed} gatheringType={"IMPROVE_LUMBERING"} />
+            <ul>Digging</ul>
+            <ul>next stone in : {stoneCounter}</ul>
+            <span>actual speed: {user.diggingSpeed}</span>
+            <UpgradeButton numberOfResources={user.stone} typeOfResources={"digging"} gatheringSpeed={user.diggingSpeed} gatheringType={"IMPROVE_DIGGING"} />
         </li>
     );
 };
