@@ -1,45 +1,52 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { MainLayout } from "./layout/MainLayout";
+import { LoginPage } from "./pages/LoginPage";
+import { Routes, Route } from "react-router-dom";
+import { CharacterPage } from "./pages/CharacterPage";
+import { LumberingPage } from "./pages/LumberingPage";
+import { UserProvider } from "./context/userContext";
+import { MiningPage } from "./pages/MiningPage";
+import { FarmingPage } from "./pages/FarmingPage";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    return (
+        <UserProvider>
+            <Routes>
+                <Route path={"/"} element={<LoginPage />} />
+                <Route
+                    path={"/character"}
+                    element={
+                        <MainLayout>
+                            <CharacterPage />
+                        </MainLayout>
+                    }
+                />
+                <Route
+                    path={"/lumbering"}
+                    element={
+                        <MainLayout>
+                            <LumberingPage />
+                        </MainLayout>
+                    }
+                />
+                <Route
+                    path={"/mining"}
+                    element={
+                        <MainLayout>
+                            <MiningPage />
+                        </MainLayout>
+                    }
+                />
+                <Route
+                    path={"/farming"}
+                    element={
+                        <MainLayout>
+                            <FarmingPage />
+                        </MainLayout>
+                    }
+                />
+            </Routes>
+        </UserProvider>
+    );
 }
 
-export default App
+export default App;
