@@ -3,11 +3,15 @@ import { AuthURL } from "../../api/routes";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SET_USER, useUser } from "../../context/userContext";
+import { InputTitle, LoginPageWrapper, LoginTabWrapper, LoginWrapper, PasswordWrapper, StyledButton, StyledInput, TabWrapper, UsernameTitle, UsernameWrapper } from "./style";
 
 export const LoginPage = () => {
+    const LOGIN_TAB = 1;
+    const REGISTER_TAB = 2;
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [activeTab, setActiveTab] = useState(LOGIN_TAB);
     const [error, setError] = useState(false);
     const navigate = useNavigate();
     const {
@@ -35,26 +39,49 @@ export const LoginPage = () => {
             localStorage.setItem("jwt", data.jwt);
         }
     };
+    const handleSwitchTab = () => {
+        if (activeTab === LOGIN_TAB) {
+            setActiveTab(REGISTER_TAB);
+        }
+        if (activeTab === REGISTER_TAB) {
+            setActiveTab(LOGIN_TAB);
+        }
+    };
     return (
-        <>
-            <div>
-                username
-                <input onChange={(e) => setUsername(e.target.value)} />
-                password
-                <input onChange={(e) => setPassword(e.target.value)} />
-                <button onClick={loginButtonCallback}>send</button>
-                {error ? "not good" : ""}
-            </div>
-            <div>
-                username
-                <input onChange={(e) => setUsername(e.target.value)} />
-                password
-                <input onChange={(e) => setPassword(e.target.value)} />
-                email
-                <input onChange={(e) => setEmail(e.target.value)} />
-                <button onClick={createButtonCallback}>send</button>
-                {error ? "not good" : ""}
-            </div>
-        </>
+        <LoginPageWrapper>
+            <LoginWrapper>
+                {activeTab === LOGIN_TAB ? (
+                    <TabWrapper>
+                        <UsernameWrapper>
+                            <InputTitle>Username</InputTitle>
+                            <StyledInput onChange={(e) => setUsername(e.target.value)} />
+                        </UsernameWrapper>
+                        <PasswordWrapper>
+                            <InputTitle>Password</InputTitle>
+                            <StyledInput onChange={(e) => setPassword(e.target.value)} />
+                        </PasswordWrapper>
+                        <StyledButton onClick={loginButtonCallback}>Login</StyledButton>
+                        <StyledButton onClick={handleSwitchTab}>Create account</StyledButton>
+                    </TabWrapper>
+                ) : (
+                    <TabWrapper>
+                        <UsernameWrapper>
+                            <InputTitle>Username</InputTitle>
+                            <StyledInput onChange={(e) => setUsername(e.target.value)} />
+                        </UsernameWrapper>
+                        <UsernameWrapper>
+                            <InputTitle>Password</InputTitle>
+                            <StyledInput onChange={(e) => setPassword(e.target.value)} />
+                        </UsernameWrapper>
+                        <UsernameWrapper>
+                            <InputTitle>Email</InputTitle>
+                            <StyledInput onChange={(e) => setEmail(e.target.value)} />
+                        </UsernameWrapper>
+                        <StyledButton onClick={createButtonCallback}>Create</StyledButton>
+                        <StyledButton onClick={handleSwitchTab}>Login</StyledButton>
+                    </TabWrapper>
+                )}
+            </LoginWrapper>
+        </LoginPageWrapper>
     );
 };

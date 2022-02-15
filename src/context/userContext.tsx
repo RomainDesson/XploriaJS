@@ -136,6 +136,14 @@ export const userReducer = (state: State, action: Action): State => {
                     stone: state.user.stone + action.payload,
                 },
             };
+        case IMPROVE_DIGGING:
+            return {
+                user: {
+                    ...state.user,
+                    diggingSpeed: action.payload.speed + 1,
+                    stone: state.user.stone - action.payload.cost,
+                },
+            };
         default:
             return state;
     }

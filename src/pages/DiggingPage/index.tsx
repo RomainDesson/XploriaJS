@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ADD_FOOD, ADD_STONE, useUser } from "../../context/userContext";
+import { ADD_STONE, useUser } from "../../context/userContext";
 import { UserURL } from "../../api/routes";
 import { useNavigate } from "react-router-dom";
 import { UpgradeButton } from "../../components/UpgradeButtons/UpgradeButton";
