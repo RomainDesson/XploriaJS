@@ -3,9 +3,10 @@ import axios from "axios";
 import { ADD_FOOD, useUser } from "../../context/userContext";
 import { UserURL } from "../../api/routes";
 import { useNavigate } from "react-router-dom";
-import { UpgradeButton } from "../../components/UpgradeButtons/UpgradeButton";
+import { ResourcesModal } from "../../components/ResourcesModal";
+import { ResourcesModalProps } from "../type";
 
-export const FarmingPage = () => {
+export const FarmingPage = ({ isModalActive, handleSwitchModal }: ResourcesModalProps) => {
     const [foodCounter, setFoodCounter] = useState<number>(5);
     const navigate = useNavigate();
     const {
@@ -28,7 +29,7 @@ export const FarmingPage = () => {
         const interval = setInterval(() => {
             setFoodCounter((foodCounter) => foodCounter - 1);
         }, 1000);
-        if (foodCounter === 0) {
+        if (foodCounter === 0 && isModalActive) {
             dispatch({ type: ADD_FOOD, payload: user.farmingSpeed });
             axios.put(
                 `${UserURL}/${user?.id}`,
@@ -44,12 +45,21 @@ export const FarmingPage = () => {
         };
     }, [foodCounter]);
 
+    const handleModalOpening = () => {
+        if (!isModalActive) {
+            handleSwitchModal(3);
+            setFoodCounter(5);
+        } else {
+            handleSwitchModal(0);
+        }
+    };
+
     return (
-        <li>
-            <ul>Farming</ul>
-            <ul>next food in : {foodCounter}</ul>
-            <span>actual speed: {user.farmingSpeed}</span>
-            <UpgradeButton numberOfResources={user.food} typeOfResources={"farming"} gatheringSpeed={user.farmingSpeed} gatheringType={"IMPROVE_FARMING"} />
-        </li>
+        <div>
+            {isModalActive && (
+                <ResourcesModal counter={foodCounter} gatheringSpeed={user.farmingSpeed} typeOfResources={"farming"} numberOfResources={user.food} gatheringType={"IMPROVE_FARMING"} />
+            )}
+            <button onClick={handleModalOpening}>Farming</button>
+        </div>
     );
 };

@@ -1,8 +1,16 @@
 import { ActionsCards } from "../../components/ActionsCards";
-import { Global, LeftBar } from "./style";
-import { useEffect } from "react";
+import { Global, ResourcesWrapper, SectionWrapper, TopBarSection } from "./style";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { initialState, SET_USER, useUser } from "../../context/userContext";
+import { LumberingPage } from "../../pages/LumberingPage";
+import { MiningPage } from "../../pages/MiningPage";
+import { FarmingPage } from "../../pages/FarmingPage";
+import { DiggingPage } from "../../pages/DiggingPage";
+import WoodIcon from "../../static/assets/wood-icon.png";
+import MineralsIcon from "../../static/assets/minerals-icon.png";
+import FoodIcon from "../../static/assets/food-icon.png";
+import StoneIcon from "../../static/assets/stone-icon.png";
 
 export const MainLayout = ({ children }: any) => {
     const {
@@ -11,6 +19,7 @@ export const MainLayout = ({ children }: any) => {
     } = useUser();
     const isLogged = localStorage.getItem("jwt");
     const navigate = useNavigate();
+    const [activeModal, setActiveModal] = useState(0);
 
     useEffect(() => {
         if (!isLogged) {
@@ -28,17 +37,26 @@ export const MainLayout = ({ children }: any) => {
         return null;
     }
 
+    const handleSwitchModal = (modal: number) => {
+        setActiveModal(modal);
+    };
+
     return (
         <Global>
-            <LeftBar>
-                <ActionsCards />
-                <input type="button" onClick={logoutButtonCallback} value="logout" />
-                <span>Wood: {user.wood}</span>
-                <span>Minerals: {user.minerals}</span>
-                <span>Food: {user.food}</span>
-                <span>Stone: {user.stone}</span>
-            </LeftBar>
-            {children}
+            <TopBarSection>
+                <img src={WoodIcon} />: {user.wood} <img src={MineralsIcon} />: {user.minerals} <img src={FoodIcon} />: {user.food} <img src={StoneIcon} />: {user.stone}
+                <button onClick={logoutButtonCallback}>Logout</button>
+            </TopBarSection>
+            <ResourcesWrapper>
+                <SectionWrapper>
+                    <LumberingPage isModalActive={activeModal === 1} handleSwitchModal={handleSwitchModal} />
+                    <MiningPage isModalActive={activeModal === 2} handleSwitchModal={handleSwitchModal} />
+                </SectionWrapper>
+                <SectionWrapper>
+                    <FarmingPage isModalActive={activeModal === 3} handleSwitchModal={handleSwitchModal} />
+                    <DiggingPage isModalActive={activeModal === 4} handleSwitchModal={handleSwitchModal} />
+                </SectionWrapper>
+            </ResourcesWrapper>
         </Global>
     );
 };

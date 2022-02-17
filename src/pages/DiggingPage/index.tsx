@@ -3,9 +3,10 @@ import axios from "axios";
 import { ADD_STONE, useUser } from "../../context/userContext";
 import { UserURL } from "../../api/routes";
 import { useNavigate } from "react-router-dom";
-import { UpgradeButton } from "../../components/UpgradeButtons/UpgradeButton";
+import { ResourcesModal } from "../../components/ResourcesModal";
+import { ResourcesModalProps } from "../type";
 
-export const DiggingPage = () => {
+export const DiggingPage = ({ isModalActive, handleSwitchModal }: ResourcesModalProps) => {
     const [stoneCounter, setStoneCounter] = useState<number>(5);
     const navigate = useNavigate();
     const {
@@ -28,7 +29,7 @@ export const DiggingPage = () => {
         const interval = setInterval(() => {
             setStoneCounter((stoneCounter) => stoneCounter - 1);
         }, 1000);
-        if (stoneCounter === 0) {
+        if (stoneCounter === 0 && isModalActive) {
             dispatch({ type: ADD_STONE, payload: user.diggingSpeed });
             axios.put(
                 `${UserURL}/${user?.id}`,
@@ -44,12 +45,21 @@ export const DiggingPage = () => {
         };
     }, [stoneCounter]);
 
+    const handleModalOpening = () => {
+        if (!isModalActive) {
+            handleSwitchModal(4);
+            setStoneCounter(5);
+        } else {
+            handleSwitchModal(0);
+        }
+    };
+
     return (
-        <li>
-            <ul>Digging</ul>
-            <ul>next stone in : {stoneCounter}</ul>
-            <span>actual speed: {user.diggingSpeed}</span>
-            <UpgradeButton numberOfResources={user.stone} typeOfResources={"digging"} gatheringSpeed={user.diggingSpeed} gatheringType={"IMPROVE_DIGGING"} />
-        </li>
+        <div>
+            {isModalActive && (
+                <ResourcesModal counter={stoneCounter} gatheringSpeed={user.diggingSpeed} numberOfResources={user.stone} typeOfResources={"mining"} gatheringType={"IMPROVE_DIGGING"} />
+            )}
+            <button onClick={handleModalOpening}>Digging</button>
+        </div>
     );
 };

@@ -3,9 +3,10 @@ import axios from "axios";
 import { ADD_MINERALS, useUser } from "../../context/userContext";
 import { UserURL } from "../../api/routes";
 import { useNavigate } from "react-router-dom";
-import { UpgradeButton } from "../../components/UpgradeButtons/UpgradeButton";
+import { ResourcesModal } from "../../components/ResourcesModal";
+import { ResourcesModalProps } from "../type";
 
-export const MiningPage = () => {
+export const MiningPage = ({ handleSwitchModal, isModalActive }: ResourcesModalProps) => {
     const [miningCounter, setMiningCounter] = useState<number>(5);
     const navigate = useNavigate();
     const {
@@ -27,7 +28,7 @@ export const MiningPage = () => {
         const interval = setInterval(() => {
             setMiningCounter((miningCounter) => miningCounter - 1);
         }, 1000);
-        if (miningCounter === 0) {
+        if (miningCounter === 0 && isModalActive) {
             dispatch({ type: ADD_MINERALS, payload: user.miningSpeed });
             axios.put(
                 `${UserURL}/${user?.id}`,
@@ -43,12 +44,27 @@ export const MiningPage = () => {
         };
     }, [miningCounter]);
 
+    const handleModalOpening = () => {
+        if (!isModalActive) {
+            handleSwitchModal(2);
+            setMiningCounter(5);
+        } else {
+            handleSwitchModal(0);
+        }
+    };
+
     return (
-        <li>
-            <ul>Mining</ul>
-            <ul>next mineral in : {miningCounter}</ul>
-            <ul>actual speed: {user.miningSpeed}</ul>
-            <UpgradeButton numberOfResources={user.minerals} typeOfResources={"mining"} gatheringSpeed={user.miningSpeed} gatheringType={"IMPROVE_MINING"} />
-        </li>
+        <div>
+            <button onClick={handleModalOpening}>Mining</button>
+            {isModalActive && (
+                <ResourcesModal
+                    counter={miningCounter}
+                    gatheringSpeed={user.miningSpeed}
+                    typeOfResources={"mining"}
+                    numberOfResources={user.minerals}
+                    gatheringType={"IMPROVE_MINING"}
+                />
+            )}
+        </div>
     );
 };
