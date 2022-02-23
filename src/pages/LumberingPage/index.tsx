@@ -28,7 +28,7 @@ export const LumberingPage = ({ isModalActive, handleSwitchModal }: ResourcesMod
         const interval = setInterval(() => {
             setLumberingCounter((lumberingCounter) => lumberingCounter - 1);
         }, 1000);
-        if (lumberingCounter === 0 && isModalActive) {
+        if (lumberingCounter === 0) {
             dispatch({ type: ADD_WOOD, payload: user.lumberingSpeed });
             axios.put(
                 `${UserURL}/${user?.id}`,
@@ -44,27 +44,10 @@ export const LumberingPage = ({ isModalActive, handleSwitchModal }: ResourcesMod
         };
     }, [lumberingCounter]);
 
-    const handleModalOpening = () => {
-        if (!isModalActive) {
-            handleSwitchModal(1);
-            setLumberingCounter(5);
-        } else {
-            handleSwitchModal(0);
-        }
-    };
-
     return (
         <div>
-            <button onClick={handleModalOpening}>Lumbering</button>
-            {isModalActive && (
-                <ResourcesModal
-                    counter={lumberingCounter}
-                    gatheringSpeed={user.lumberingSpeed}
-                    typeOfResources={"lumbering"}
-                    numberOfResources={user.wood}
-                    gatheringType={"IMPROVE_LUMBERING"}
-                />
-            )}
+            <span>Next wood in {lumberingCounter}</span>
+            <span>Lumbering speed: {user.lumberingSpeed}</span>
         </div>
     );
 };

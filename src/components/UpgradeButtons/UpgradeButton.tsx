@@ -30,11 +30,11 @@ export const UpgradeButton = ({ numberOfResources, typeOfResources, gatheringSpe
     };
     const apiData = getApiData(typeOfResources, upgradeCost);
 
-    const improveGatheringSpeed = () => {
+    const improveGatheringSpeed = async () => {
         setError(false);
         if (numberOfResources >= upgradeCost && gatheringSpeed < 20) {
             dispatch(dispatchProps);
-            axios.put(`${UserURL}/${user.id}`, apiData, headers);
+            await axios.put(`${UserURL}/${user.id}`, apiData, headers);
         } else {
             setError(true);
         }

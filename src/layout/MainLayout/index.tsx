@@ -1,5 +1,5 @@
 import { ActionsCards } from "../../components/ActionsCards";
-import { Global, ResourcesWrapper, SectionWrapper, TopBarSection } from "./style";
+import { Global, LeftBar, ResourcesWrapper, SectionWrapper, TopBarSection } from "./style";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { initialState, SET_USER, useUser } from "../../context/userContext";
@@ -43,20 +43,11 @@ export const MainLayout = ({ children }: any) => {
 
     return (
         <Global>
-            <TopBarSection>
-                <img src={WoodIcon} />: {user.wood} <img src={MineralsIcon} />: {user.minerals} <img src={FoodIcon} />: {user.food} <img src={StoneIcon} />: {user.stone}
+            <LeftBar>
+                <ActionsCards />
                 <button onClick={logoutButtonCallback}>Logout</button>
-            </TopBarSection>
-            <ResourcesWrapper>
-                <SectionWrapper>
-                    <LumberingPage isModalActive={activeModal === 1} handleSwitchModal={handleSwitchModal} />
-                    <MiningPage isModalActive={activeModal === 2} handleSwitchModal={handleSwitchModal} />
-                </SectionWrapper>
-                <SectionWrapper>
-                    <FarmingPage isModalActive={activeModal === 3} handleSwitchModal={handleSwitchModal} />
-                    <DiggingPage isModalActive={activeModal === 4} handleSwitchModal={handleSwitchModal} />
-                </SectionWrapper>
-            </ResourcesWrapper>
+            </LeftBar>
+            {children}
         </Global>
     );
 };

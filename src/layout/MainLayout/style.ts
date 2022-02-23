@@ -2,10 +2,21 @@ import styled from "styled-components";
 
 export const Global = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100vh;
     width: 100vw;
     background-color: #545149;
+`;
+
+export const LeftBar = styled.div`
+    width: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const ContentWrapper = styled.div`
+    width: 80vh;
 `;
 
 export const ResourcesWrapper = styled.div`

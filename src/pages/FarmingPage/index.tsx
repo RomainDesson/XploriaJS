@@ -45,21 +45,9 @@ export const FarmingPage = ({ isModalActive, handleSwitchModal }: ResourcesModal
         };
     }, [foodCounter]);
 
-    const handleModalOpening = () => {
-        if (!isModalActive) {
-            handleSwitchModal(3);
-            setFoodCounter(5);
-        } else {
-            handleSwitchModal(0);
-        }
-    };
-
     return (
         <div>
-            {isModalActive && (
-                <ResourcesModal counter={foodCounter} gatheringSpeed={user.farmingSpeed} typeOfResources={"farming"} numberOfResources={user.food} gatheringType={"IMPROVE_FARMING"} />
-            )}
-            <button onClick={handleModalOpening}>Farming</button>
+            <span>Farming speed: {user.farmingSpeed}</span>
         </div>
     );
 };

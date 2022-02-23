@@ -45,21 +45,9 @@ export const DiggingPage = ({ isModalActive, handleSwitchModal }: ResourcesModal
         };
     }, [stoneCounter]);
 
-    const handleModalOpening = () => {
-        if (!isModalActive) {
-            handleSwitchModal(4);
-            setStoneCounter(5);
-        } else {
-            handleSwitchModal(0);
-        }
-    };
-
     return (
         <div>
-            {isModalActive && (
-                <ResourcesModal counter={stoneCounter} gatheringSpeed={user.diggingSpeed} numberOfResources={user.stone} typeOfResources={"mining"} gatheringType={"IMPROVE_DIGGING"} />
-            )}
-            <button onClick={handleModalOpening}>Digging</button>
+            <span>Digging speed: {user.diggingSpeed}</span>
         </div>
     );
 };

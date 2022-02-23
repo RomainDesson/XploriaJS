@@ -44,27 +44,9 @@ export const MiningPage = ({ handleSwitchModal, isModalActive }: ResourcesModalP
         };
     }, [miningCounter]);
 
-    const handleModalOpening = () => {
-        if (!isModalActive) {
-            handleSwitchModal(2);
-            setMiningCounter(5);
-        } else {
-            handleSwitchModal(0);
-        }
-    };
-
     return (
         <div>
-            <button onClick={handleModalOpening}>Mining</button>
-            {isModalActive && (
-                <ResourcesModal
-                    counter={miningCounter}
-                    gatheringSpeed={user.miningSpeed}
-                    typeOfResources={"mining"}
-                    numberOfResources={user.minerals}
-                    gatheringType={"IMPROVE_MINING"}
-                />
-            )}
+            <span>Mining speed: {user.miningSpeed}</span>
         </div>
     );
 };
