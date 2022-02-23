@@ -1,12 +1,9 @@
 import { ActionsCards } from "../../components/ActionsCards";
-import { Global, LeftBar, ResourcesWrapper, SectionWrapper, TopBarSection } from "./style";
+import { Global, LeftBar, LeftBarTop, ResourcesWrapper, SectionWrapper, TopBarSection } from "./style";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { initialState, SET_USER, useUser } from "../../context/userContext";
-import { LumberingPage } from "../../pages/LumberingPage";
-import { MiningPage } from "../../pages/MiningPage";
-import { FarmingPage } from "../../pages/FarmingPage";
-import { DiggingPage } from "../../pages/DiggingPage";
+import { StyledButton } from "../../pages/LoginPage/style";
 import WoodIcon from "../../static/assets/wood-icon.png";
 import MineralsIcon from "../../static/assets/minerals-icon.png";
 import FoodIcon from "../../static/assets/food-icon.png";
@@ -44,8 +41,24 @@ export const MainLayout = ({ children }: any) => {
     return (
         <Global>
             <LeftBar>
-                <ActionsCards />
-                <button onClick={logoutButtonCallback}>Logout</button>
+                <LeftBarTop>
+                    <ActionsCards />
+                    <ResourcesWrapper>
+                        <span>
+                            <img src={WoodIcon} />: {user.wood}
+                        </span>
+                        <span>
+                            <img src={MineralsIcon} />: {user.minerals}
+                        </span>
+                        <span>
+                            <img src={FoodIcon} />: {user.food}
+                        </span>
+                        <span>
+                            <img src={StoneIcon} />: {user.stone}
+                        </span>
+                    </ResourcesWrapper>
+                </LeftBarTop>
+                <StyledButton onClick={logoutButtonCallback}>Logout</StyledButton>
             </LeftBar>
             {children}
         </Global>

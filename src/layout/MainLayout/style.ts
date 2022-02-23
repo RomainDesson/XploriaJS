@@ -13,18 +13,18 @@ export const LeftBar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 `;
-
-export const ContentWrapper = styled.div`
-    width: 80vh;
+export const LeftBarTop = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 `;
 
 export const ResourcesWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding: 250px;
 `;
 
 export const TopBarSection = styled.div`

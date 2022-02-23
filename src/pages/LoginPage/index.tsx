@@ -3,7 +3,7 @@ import { AuthURL } from "../../api/routes";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SET_USER, useUser } from "../../context/userContext";
-import { InputTitle, LoginPageWrapper, LoginTabWrapper, LoginWrapper, PasswordWrapper, StyledButton, StyledInput, TabWrapper, UsernameTitle, UsernameWrapper } from "./style";
+import { InputTitle, LoginPageWrapper, LoginWrapper, PasswordWrapper, StyledButton, StyledInput, TabWrapper, UsernameTitle, UsernameWrapper } from "./style";
 
 export const LoginPage = () => {
     const LOGIN_TAB = 1;

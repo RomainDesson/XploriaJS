@@ -69,4 +69,7 @@ export const StyledButton = styled.button`
     height: 2rem;
     margin-bottom: 1rem;
     font-size: 18px;
+    &:hover {
+        background-color: lightgray;
+    }
 `;
